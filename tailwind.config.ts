@@ -11,7 +11,8 @@ const config: Config = {
       colors: {
         bkg: "#5E503F",
         foreground: "var(--foreground)",
-        
+
+
       },
       fontFamily: {
         sans: ["Inter var", "system-ui", "sans-serif"],
