@@ -7,46 +7,29 @@ export interface GridProps {
 }
 
 export default function Grid() {
-	// useState(() => {
-	// 	getLabels();
-	// });
+	function generateLabels() {
+		const labels = new Set();
 
-	// function getLabels(): string[] {
-	// 	let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	// 	const labels: string[] = [];
+		const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		for (let i = 0; labels.size < 16; i++) {
+			labels.add(alphabet[Math.floor(Math.random() * alphabet.length)]);
+		}
+		return labels;
+	}
 
-	// 	for (let i = 0; i < alphabet.length; i++) {
-	// 		let letter = alphabet[Math.floor(Math.random() * alphabet.length)];
-	// 		labels.push(letter);
-	// 	}
-	// 	return labels;
-	// }
-	// const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	let labels = new Set();
+	let storedLabels: string | null = null;
 
-	// for (let i = 0; i < alphabet.length; i++) {
-	//     // let letter = alphabet[Math.floor(Math.random() * alphabet.length)];
-	// 	let letter = alphabet[Math.floor(Math.random() * alphabet.length)];
-	//     labels.push(letter);
-	// }
+	if (typeof window !== "undefined") {
+		storedLabels = localStorage.getItem("labels");
+	}
 
-	let labels = [
-		"A",
-		"B",
-		"C",
-		"D",
-		"E",
-		"F",
-		"G",
-		"H",
-		"I",
-		"J",
-		"K",
-		"L",
-		"M",
-		"N",
-		"O",
-		"P",
-	];
+	if (storedLabels) {
+		labels = new Set(JSON.parse(storedLabels));
+	} else {
+		labels = generateLabels();
+		localStorage.setItem("labels", JSON.stringify(Array.from(labels)));
+	}
 
 	const [val, setVal] = useState<string[]>([]);
 
@@ -56,8 +39,8 @@ export default function Grid() {
 
 	function displayLetter() {
 		return (
-			<div className='flex justify-center pt-8 text-white'>
-				<p>{val}</p>
+			<div className='flex justify-center pt-4 h-10 text-white'>
+				{val}
 			</div>
 		);
 	}
@@ -71,33 +54,30 @@ export default function Grid() {
 	}
 
 	function printGrid() {
-		let row = 4;
-		let col = 4;
-
-		let val = "";
+		const row = 4;
+		const col = 4;
 
 		const grid: JSX.Element[] = [];
 		for (let i = 0; i < row; i++) {
 			const rowElements: JSX.Element[] = [];
 			for (let j = 0; j < col; j++) {
 				rowElements.push(
-					<div className='p-2'>
+					<div className='p-2' key={`div-btn-${i}-${j}`}>
 						<button
-							key={`${i}-${j}`}
+							key={`btn-${i}-${j}`}
 							className='bg-white text-slate-950 font-semibold text-2xl h-20 rounded-[8px] w-20'
 							onClick={() =>
-								onButtonClick(labels[(i * col + j) % labels.length])
+								onButtonClick(
+									String(Array.from(labels)[(i * col + j) % labels.size])
+								)
 							}
 						>
-							{labels[(i * col + j) % labels.length]}
+							{String(Array.from(labels)[(i * col + j) % labels.size])}
 						</button>
 					</div>
 				);
 			}
 			grid.push(
-				// <div key={`row-${i}`} className='flex'>
-				//     {rowElements}
-				// </div>
 				<div key={i} className='flex'>
 					{rowElements}
 				</div>
@@ -105,12 +85,12 @@ export default function Grid() {
 		}
 		return grid;
 	}
-
-	// return <div className='pt-8'>{buttonClick(printGrid())}</div>;
 	return (
 		<div>
-			<div>{displayLetter()}</div>
-			<div className='pt-8'>{printGrid()}</div>
+			{displayLetter()}
+			<hr/>
+			<br />
+			<div className='pt-2' >{printGrid()}</div>
 			<div className='pt-16'>
 				<SecondaryButton label='Delete' onClick={deleteLetter} />
 				<SecondaryButton label='Reshuffle' />
