@@ -1,6 +1,8 @@
 "use client";
 
+import React, { use } from "react";
 import Key from "./Key";
+import { useState } from "react";
 
 interface KeypadProps {
 	letters: string[];
@@ -18,6 +20,12 @@ const Keypad = ({ letters }: KeypadProps) => {
 		console.log("key", key);
 	}
 
+	const [clickedKey, setClickedKey] = useState<String[]>([]);
+
+	function displayLetter(key: string) {
+		setClickedKey((prevVal) => [...prevVal, key]);
+	}
+
 	function getRow(rowLetters: string[], rowIndex: number) {
 		const row: JSX.Element = (
 			<div
@@ -29,7 +37,7 @@ const Keypad = ({ letters }: KeypadProps) => {
 						<Key
 							key={`key-${rowIndex}${index}`}
 							letter={letter}
-							onClick={() => handleOnClick(letter)}
+							onClick={() => displayLetter(letter)}
 						/>
 					);
 				})}
@@ -40,14 +48,23 @@ const Keypad = ({ letters }: KeypadProps) => {
 	}
 
 	return (
-		<div className='grid'>
-			<div className='m-auto flex h-fit w-fit flex-col justify-items-center'>
-				{rows.map((rowLetters: string[], index: number) =>
-					getRow(rowLetters, index)
-				)}
+		<>
+			{clickedKey && (
+				<div className='flex justify-center pt-4 h-10 text-white'>
+					{clickedKey}
+				</div>
+			)}
+			<div className='grid'>
+				<div className='m-auto flex h-fit w-fit flex-col justify-items-center'>
+					{rows.map((rowLetters: string[], index: number) =>
+						getRow(rowLetters, index)
+					)}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
 export default Keypad;
+
+
