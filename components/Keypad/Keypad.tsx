@@ -3,12 +3,15 @@
 import React, { use } from "react";
 import Key from "./Key";
 import { useState } from "react";
+import SecondaryButton from "../SecondaryButton";
+
 
 interface KeypadProps {
 	letters: string[];
+	countries: string[];
 }
 
-const Keypad = ({ letters }: KeypadProps) => {
+const Keypad = ({ letters, countries }: KeypadProps) => {
 	const maxLetterOnRow = 4;
 	const rows: string[][] = [];
 
@@ -18,12 +21,6 @@ const Keypad = ({ letters }: KeypadProps) => {
 
 	function handleOnClick(key: string) {
 		console.log("key", key);
-	}
-
-	const [clickedKey, setClickedKey] = useState<String[]>([]);
-
-	function displayLetter(key: string) {
-		setClickedKey((prevVal) => [...prevVal, key]);
 	}
 
 	function getRow(rowLetters: string[], rowIndex: number) {
@@ -47,6 +44,37 @@ const Keypad = ({ letters }: KeypadProps) => {
 		return row;
 	}
 
+	const [clickedKey, setClickedKey] = useState<String[]>([]);
+
+	function displayLetter(key: string) {
+		setClickedKey((prevVal) => [...prevVal, key]);
+	}
+
+	function deleteLetter() {
+		setClickedKey((prevVal) => {
+			const newVal = [...prevVal];
+			newVal.pop();
+			return newVal;
+		});
+	}
+
+	// function shuffleLetters() {
+	// 	console.log("Letters: ", letters)
+	// 	let shuffledLetters = [...letters].sort(() => 0.5 - Math.random());
+	// 	console.log("Shuffled Letters: ", shuffledLetters)
+	// }
+
+	function submitWord() {
+		let word = clickedKey.join("");
+		console.log("Word: ", word);
+
+		if (countries.includes(word)) {
+			console.log("Correct");
+		} else {
+			console.log("Incorrect");
+		}
+	}
+
 	return (
 		<>
 			{clickedKey && (
@@ -61,10 +89,13 @@ const Keypad = ({ letters }: KeypadProps) => {
 					)}
 				</div>
 			</div>
+			<div className='pt-8'>
+				<SecondaryButton label='Delete' onClick={deleteLetter} />
+
+				<SecondaryButton label='Submit' onClick={submitWord} />
+			</div>
 		</>
 	);
 };
 
 export default Keypad;
-
-

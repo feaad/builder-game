@@ -4,17 +4,11 @@ import { main } from "./generator";
 import { getCommonLetters } from "./generator";
 import { validCountries } from "./validCountries";
 
-
-
-
-
 export const meta = {
 	title: "Countries - The Builder Game",
 };
 
 export default async function countries() {
-	// const letters: string[] = await getUniqueLetters();
-	// console.log("Letters: ", letters);
 
 	const countries = await main();
 	const letters = await getCommonLetters();
@@ -47,9 +41,6 @@ export default async function countries() {
 				
 			</div>
 		</div>
-		// <div className='bg-slate-600'>
-		// 	<Keypad letters={letters} />
-		// </div>
 	);
 }
 
