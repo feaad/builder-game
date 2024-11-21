@@ -38,35 +38,6 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		});
 	}
 
-	// function shuffleLetters() {
-	// 	console.log("Letters: ", letters)
-	// 	let shuffledLetters = [...letters].sort(() => 0.5 - Math.random());
-	// 	console.log("Shuffled Letters: ", shuffledLetters)
-	// }
-
-	// function submitWord() {
-	// 	let word = clickedKey.join("");
-	// 	console.log("Word: ", word);
-
-	// 	if (countries.includes(word)) {
-	// 		console.log("Correct");
-	// 		colour = "bg-blue-500";
-	// 	} else if (word === "") {
-	// 		console.log("Kindly enter a country name");
-	// 		colour = "bg-yellow-500";
-	// 	} else {
-	// 		console.log("Incorrect");
-	// 		colour = "bg-red-500";
-	// 	}
-	// }
-
-	// function testColour(word: string) {
-	// 	// let word = clickedKey.join("");
-	// 	for (let i = 0; i < word.length; i++) {
-	// 		console.log("Word: ", word[i]);
-	// 	}
-	// }
-
 	const [colour, setColour] = useState<string[]>(
 		Array(letters.length).fill("bg-white")
 	);
@@ -79,10 +50,6 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		console.log("Word: ", word);
 
 		if (countries.includes(word)) {
-			// 	console.log("Correct");
-			// 	testColour(word);
-			// }
-			// else {
 			console.log("correct");
 
 			const newColours = [...colour];
@@ -95,13 +62,11 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 			}
 			setColour(newColours);
 			setTextColour(newTextColours);
+		} else if (word === "") {
+			console.log("Kindly enter a country name");
+		} else {
+			console.log("Incorrect");
 		}
-		// else if (word === "") {
-		// 	console.log("Kindly enter a country name");
-		// 	colour = "bg-yellow-500";
-		// } else {
-		// 	console.log("Incorrect");
-		// 	colour = "bg-red-500;
 	}
 
 	function getRow(rowLetters: string[], rowIndex: number) {
