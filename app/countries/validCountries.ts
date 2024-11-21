@@ -15,21 +15,22 @@ export async function getCountryList() {
     console.log("Full Countries List_1: ", countriesList);
     return countriesList;
 }
-
+let count = 0;
 export async function validCountries() {
+
     const countryList = await getCountryList();
     const letters = await getCommonLetters();
     console.log("Letters: ", letters);
 
-    for (let i = 0; i < countryList.length; i++) { 
+    for (let i = 0; i < countryList.length; i++) {
         if ([...countryList[i].toLowerCase()].every(countriesList => letters.includes(countriesList))) {
-                    validCountriesList.push(countryList[i].toLowerCase());
-                }
+            validCountriesList.push(countryList[i].toLowerCase());
+        }
     }
 
-    
-    // console.log("Result", validCountriesList);
-    // console.log("Result Length", validCountriesList.length);
+
+    console.log("Result", validCountriesList);
+    console.log("Length", validCountriesList.length);
     // console.log("checking country list", countriesList);
     return validCountriesList;
 }

@@ -5,7 +5,6 @@ import Key from "./Key";
 import { useState } from "react";
 import SecondaryButton from "../SecondaryButton";
 
-
 interface KeypadProps {
 	letters: string[];
 	countries: string[];
@@ -23,26 +22,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		console.log("key", key);
 	}
 
-	function getRow(rowLetters: string[], rowIndex: number) {
-		const row: JSX.Element = (
-			<div
-				key={`kp-row-${rowIndex}`}
-				className='m-auto flex h-fit w-fit flex-row justify-items-center'
-			>
-				{rowLetters.map((letter, index) => {
-					return (
-						<Key
-							key={`key-${rowIndex}${index}`}
-							letter={letter}
-							onClick={() => displayLetter(letter)}
-						/>
-					);
-				})}
-			</div>
-		);
-
-		return row;
-	}
+	// let colour = "bg-green-500";
 
 	const [clickedKey, setClickedKey] = useState<String[]>([]);
 
@@ -64,15 +44,88 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 	// 	console.log("Shuffled Letters: ", shuffledLetters)
 	// }
 
+	// function submitWord() {
+	// 	let word = clickedKey.join("");
+	// 	console.log("Word: ", word);
+
+	// 	if (countries.includes(word)) {
+	// 		console.log("Correct");
+	// 		colour = "bg-blue-500";
+	// 	} else if (word === "") {
+	// 		console.log("Kindly enter a country name");
+	// 		colour = "bg-yellow-500";
+	// 	} else {
+	// 		console.log("Incorrect");
+	// 		colour = "bg-red-500";
+	// 	}
+	// }
+
+	// function testColour(word: string) {
+	// 	// let word = clickedKey.join("");
+	// 	for (let i = 0; i < word.length; i++) {
+	// 		console.log("Word: ", word[i]);
+	// 	}
+	// }
+
+	const [colour, setColour] = useState<string[]>(
+		Array(letters.length).fill("bg-white")
+	);
+	const [textColour, setTextColour] = useState<string[]>(
+		Array(letters.length).fill("text-slate-950")
+	);
+
 	function submitWord() {
 		let word = clickedKey.join("");
 		console.log("Word: ", word);
 
 		if (countries.includes(word)) {
-			console.log("Correct");
-		} else {
-			console.log("Incorrect");
+			// 	console.log("Correct");
+			// 	testColour(word);
+			// }
+			// else {
+			console.log("correct");
+
+			const newColours = [...colour];
+			const newTextColours = [...textColour];
+			for (let i = 0; i < word.length; i++) {
+				const index = letters.indexOf(word[i]);
+				console.log(`Letter: ${word[i]}, Index: ${index}`);
+				newColours[index] = "bg-clicked";
+				newTextColours[index] = "text-textclicked";
+			}
+			setColour(newColours);
+			setTextColour(newTextColours);
 		}
+		// else if (word === "") {
+		// 	console.log("Kindly enter a country name");
+		// 	colour = "bg-yellow-500";
+		// } else {
+		// 	console.log("Incorrect");
+		// 	colour = "bg-red-500;
+	}
+
+	function getRow(rowLetters: string[], rowIndex: number) {
+		const row: JSX.Element = (
+			<div
+				key={`kp-row-${rowIndex}`}
+				className='m-auto flex h-fit w-fit flex-row justify-items-center'
+			>
+				{rowLetters.map((letter, index) => {
+					const letterIndex = letters.indexOf(letter);
+					return (
+						<Key
+							key={`key-${rowIndex}${index}`}
+							letter={letter}
+							onClick={() => displayLetter(letter)}
+							colour={colour[letterIndex]}
+							text={textColour[letterIndex]}
+						/>
+					);
+				})}
+			</div>
+		);
+
+		return row;
 	}
 
 	return (
@@ -89,10 +142,15 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 					)}
 				</div>
 			</div>
-			<div className='pt-8'>
-				<SecondaryButton label='Delete' onClick={deleteLetter} />
-
-				<SecondaryButton label='Submit' onClick={submitWord} />
+			<div className='pt-8 flex justify-center'>
+				<div className='grid grid-cols-3 gap-2'>
+					<SecondaryButton label='Delete' onClick={deleteLetter} />
+					<SecondaryButton
+						label='Shuffle'
+						onClick={() => console.log("Shuffle")}
+					/>
+					<SecondaryButton label='Submit' onClick={submitWord} />
+				</div>
 			</div>
 		</>
 	);

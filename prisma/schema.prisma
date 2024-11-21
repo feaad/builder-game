@@ -7,13 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model animals {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-}
-
 model countries {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  code String
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  continent String
+  countries String[]
 }

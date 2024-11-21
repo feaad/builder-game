@@ -9,7 +9,7 @@ async function main() {
 }
 
 export async function getCountries() {
-    return await prisma.test.findMany({
+    return await prisma.countries.findMany({
         select: {
             countries: true,
             id: false,

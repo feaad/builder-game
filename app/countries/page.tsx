@@ -38,7 +38,6 @@ export default async function countries() {
 			</div>
 			<div>
 				<Keypad letters={letters} countries={validCountriesList}/>
-				
 			</div>
 		</div>
 	);

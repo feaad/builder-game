@@ -11,6 +11,8 @@ const config: Config = {
       colors: {
         bkg: "#5E503F",
         foreground: "var(--foreground)",
+        clicked: "#D9D9D9",
+        textclicked: "#948078"
 
 
       },
