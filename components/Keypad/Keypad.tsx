@@ -5,6 +5,9 @@ import Key from "./Key";
 import { useState } from "react";
 import SecondaryButton from "../SecondaryButton";
 import SpaceBar from "./SpaceBar";
+import { checkIfExist } from "@/app/countries/engine";
+import Toast from "../Toast";
+import { get } from "http";
 
 interface KeypadProps {
 	letters: string[];
@@ -23,7 +26,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		console.log("key", key);
 	}
 
-	const [clickedKey, setClickedKey] = useState<String[]>([]);
+	const [clickedKey, setClickedKey] = useState<string[]>([]);
 
 	function displayLetter(key: string) {
 		setClickedKey((prevVal) => [...prevVal, key]);
@@ -37,6 +40,10 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		});
 	}
 
+	function clearWord() {
+		setClickedKey([]);
+	}
+
 	const [colour, setColour] = useState<string[]>(
 		Array(letters.length).fill("bg-white")
 	);
@@ -44,39 +51,58 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		Array(letters.length).fill("text-slate-950")
 	);
 
-	const [validInputs, setValidInputs] = useState<String[]>([]);
+	const [validInputs, setValidInputs] = useState<string[]>([]);
+	const [toastMsg, setToast] = useState<string>("");
+	const [toastColour, setToastColour] = useState<string>("");
+	const [toastTxtColour, setToastTextColour] = useState<string>("");
+
+	function getToast(message: string, colour: string, txtColour: string) { 
+		setToast(message);
+		setToastColour(colour);
+		setToastTextColour(txtColour);
+		setTimeout(() => {
+			setToast("");
+		}, 5000);
+	}
+
+
 
 	function submitWord() {
 		let word = clickedKey.join("");
 		console.log("Word: ", word);
-
 		if (countries.has(word)) {
-			setValidInputs((prevVal) => [...prevVal," - ", word]);
-			console.log(validInputs)
-			console.log("correct");
-
-			const newColours = [...colour];
-			const newTextColours = [...textColour];
-			for (let i = 0; i < word.length; i++) {
-				const index = letters.indexOf(word[i]);
-				console.log(`Letter: ${word[i]}, Index: ${index}`);
-				newColours[index] = "bg-clicked";
-				newTextColours[index] = "text-textclicked";
+			if (checkIfExist(word, validInputs)) {
+				getToast("Already exists", "bg-red-100", "text-red-500");
+			} else {
+				getToast(
+					"Awesome! You got it right!",
+					"bg-toast",
+					"text-black"
+				);
+				setValidInputs((prevVal) => [...prevVal, word, " - "]);
+				changeColour(word);
+				clearWord();
 			}
-			setColour(newColours);
-			setTextColour(newTextColours);
 		} else if (word === "") {
-			console.log("Kindly enter a country name");
+			getToast("Kindly enter a country name", "bg-slate-900", "text-slate-200");
+			clearWord();
 		} else {
-			console.log("Incorrect");
+			getToast("Not on the list!", "bg-red-100", "text-red-500");
+			clearWord();
 		}
 	}
 
-	function clickSpaceBar() { 
-		if (clickedKey.length > 0) {
-			setClickedKey((prevVal) => [...prevVal, " "]);
-			console.log("Space Bar Clicked");
+	function changeColour(userInput: string) {
+		const newColours = [...colour];
+		const newTextColours = [...textColour];
+		for (let i = 0; i < userInput.length; i++) {
+			const index = letters.indexOf(userInput[i]);
+			console.log(`Letter: ${userInput[i]}, Index: ${index}`);
+			newColours[index] = "bg-clicked";
+			newTextColours[index] = "text-textclicked";
 		}
+		setColour(newColours);
+		setTextColour(newTextColours);
 	}
 
 	function getRow(rowLetters: string[], rowIndex: number) {
@@ -88,15 +114,13 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 				{rowLetters.map((letter, index) => {
 					const letterIndex = letters.indexOf(letter);
 					return (
-						<div>
-							<Key
-								key={`key-${rowIndex}${index}`}
-								letter={letter}
-								onClick={() => displayLetter(letter)}
-								colour={colour[letterIndex]}
-								text={textColour[letterIndex]}
-							/>
-						</div>
+						<Key
+							key={`key-${rowIndex}${index}`}
+							letter={letter}
+							onClick={() => displayLetter(letter)}
+							colour={colour[letterIndex]}
+							text={textColour[letterIndex]}
+						/>
 					);
 				})}
 			</div>
@@ -105,6 +129,12 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		return row;
 	}
 
+	function clickSpaceBar() {
+		if (clickedKey.length > 0) {
+			setClickedKey((prevVal) => [...prevVal, " "]);
+			console.log("Space Bar Clicked");
+		}
+	}
 
 	function getSpaceBar(spaceBarKey: string) {
 		const spaceBar: JSX.Element = (
@@ -113,19 +143,24 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 			</div>
 		);
 
-		return spaceBar
+		return spaceBar;
 	}
 
-
 	
+
+
 
 	return (
 		<>
 			{clickedKey && (
-				<div className='flex justify-center pt-4 h-10 text-white'>
-					{clickedKey}
+				<div>
+					<div className='flex justify-center pt-4 h-10 text-white'>
+						{clickedKey}
+					</div>
 				</div>
 			)}
+
+			{toastMsg && <Toast message={toastMsg} colour={toastColour} textColour={toastTxtColour} />}
 			<div>
 				<hr className='w-64 mx-auto h-px bg-gray-200 border-0'></hr>
 			</div>
@@ -139,9 +174,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 						getRow(rowLetters, index)
 					)}
 				</div>
-				<div>
-					{getSpaceBar("space")}
-				</div>
+				<div>{getSpaceBar("space")}</div>
 			</div>
 			<div className='pt-8 flex justify-center'>
 				<div className='grid grid-cols-3 gap-2'>

@@ -12,7 +12,8 @@ const config: Config = {
         bkg: "#5E503F",
         foreground: "var(--foreground)",
         clicked: "#D9D9D9",
-        textclicked: "#948078"
+        textclicked: "#948078",
+        toast: "#D2D4C8"
 
 
       },
