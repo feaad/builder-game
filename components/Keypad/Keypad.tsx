@@ -7,7 +7,7 @@ import SecondaryButton from "../SecondaryButton";
 import SpaceBar from "./SpaceBar";
 import { checkIfExist } from "@/app/countries/engine";
 import Toast from "../Toast";
-import { get } from "http";
+import { checkWin } from "@/app/countries/engine";
 
 interface KeypadProps {
 	letters: string[];
@@ -55,6 +55,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 	const [toastMsg, setToast] = useState<string>("");
 	const [toastColour, setToastColour] = useState<string>("");
 	const [toastTxtColour, setToastTextColour] = useState<string>("");
+	const [resInputs] = useState<string[]>([]);
 
 	function getToast(message: string, colour: string, txtColour: string) { 
 		setToast(message);
@@ -64,8 +65,6 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 			setToast("");
 		}, 5000);
 	}
-
-
 
 	function submitWord() {
 		let word = clickedKey.join("");
@@ -80,7 +79,10 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 					"text-black"
 				);
 				setValidInputs((prevVal) => [...prevVal, word, " - "]);
+				let res = resInputs.push(word);
+				console.log("Valid Inputs: ", resInputs);
 				changeColour(word);
+				checkWin(resInputs, letters)
 				clearWord();
 			}
 		} else if (word === "") {
@@ -91,6 +93,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 			clearWord();
 		}
 	}
+
 
 	function changeColour(userInput: string) {
 		const newColours = [...colour];
