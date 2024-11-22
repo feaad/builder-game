@@ -73,7 +73,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 	}
 
 	function clickSpaceBar() { 
-		if (clickedKey.length > 1) {
+		if (clickedKey.length > 0) {
 			setClickedKey((prevVal) => [...prevVal, " "]);
 			console.log("Space Bar Clicked");
 		}
@@ -105,17 +105,15 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		return row;
 	}
 
-	function getSpaceBar(spaceBarKey: string, spaceBarIndex: number) { 
+
+	function getSpaceBar(spaceBarKey: string) {
 		const spaceBar: JSX.Element = (
-			<div key={`kp-spacebar-${spaceBarIndex}`}>
-				<SpaceBar
-					spacebar={spaceBarKey}
-					onClick={clickSpaceBar}/>
-				</div>
+			<div>
+				<SpaceBar label={spaceBarKey} onClick={clickSpaceBar} />
+			</div>
 		);
 
-		return spaceBar;
-
+		return spaceBar
 	}
 
 
@@ -142,7 +140,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 					)}
 				</div>
 				<div>
-					{getSpaceBar("space", 17)}
+					{getSpaceBar("space")}
 				</div>
 			</div>
 			<div className='pt-8 flex justify-center'>

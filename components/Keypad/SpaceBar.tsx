@@ -3,11 +3,11 @@
 import { space } from "postcss/lib/list";
 
 interface SpaceBarProps {
-	spacebar: string;
+	label: string;
 	onClick: () => void;
 }
 
-const Key = ({ spacebar, onClick }: SpaceBarProps) => {
+const SpaceBar = ({ label, onClick }: SpaceBarProps) => {
 	return (
 		<div className='flex m-4'>
 			<button
@@ -16,11 +16,11 @@ const Key = ({ spacebar, onClick }: SpaceBarProps) => {
 				className={`btn-square w-full flex bg-white rounded-lg`}
 			>
 				<div className={`flex m-auto font-semibold text-slate-900 text-xl`}>
-					{spacebar}
+					{label}
 				</div>
 			</button>
 		</div>
 	);
 };
 
-export default Key;
+export default SpaceBar;
