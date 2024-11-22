@@ -4,10 +4,11 @@ import React, { use } from "react";
 import Key from "./Key";
 import { useState } from "react";
 import SecondaryButton from "../SecondaryButton";
+import SpaceBar from "./SpaceBar";
 
 interface KeypadProps {
 	letters: string[];
-	countries: string[];
+	countries: Set<string>;
 }
 
 const Keypad = ({ letters, countries }: KeypadProps) => {
@@ -21,8 +22,6 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 	function handleOnClick(key: string) {
 		console.log("key", key);
 	}
-
-	// let colour = "bg-green-500";
 
 	const [clickedKey, setClickedKey] = useState<String[]>([]);
 
@@ -45,11 +44,15 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		Array(letters.length).fill("text-slate-950")
 	);
 
+	const [validInputs, setValidInputs] = useState<String[]>([]);
+
 	function submitWord() {
 		let word = clickedKey.join("");
 		console.log("Word: ", word);
 
-		if (countries.includes(word)) {
+		if (countries.has(word)) {
+			setValidInputs((prevVal) => [...prevVal," - ", word]);
+			console.log(validInputs)
 			console.log("correct");
 
 			const newColours = [...colour];
@@ -69,6 +72,13 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		}
 	}
 
+	function clickSpaceBar() { 
+		if (clickedKey.length > 1) {
+			setClickedKey((prevVal) => [...prevVal, " "]);
+			console.log("Space Bar Clicked");
+		}
+	}
+
 	function getRow(rowLetters: string[], rowIndex: number) {
 		const row: JSX.Element = (
 			<div
@@ -78,13 +88,15 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 				{rowLetters.map((letter, index) => {
 					const letterIndex = letters.indexOf(letter);
 					return (
-						<Key
-							key={`key-${rowIndex}${index}`}
-							letter={letter}
-							onClick={() => displayLetter(letter)}
-							colour={colour[letterIndex]}
-							text={textColour[letterIndex]}
-						/>
+						<div>
+							<Key
+								key={`key-${rowIndex}${index}`}
+								letter={letter}
+								onClick={() => displayLetter(letter)}
+								colour={colour[letterIndex]}
+								text={textColour[letterIndex]}
+							/>
+						</div>
 					);
 				})}
 			</div>
@@ -93,6 +105,22 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		return row;
 	}
 
+	function getSpaceBar(spaceBarKey: string, spaceBarIndex: number) { 
+		const spaceBar: JSX.Element = (
+			<div key={`kp-spacebar-${spaceBarIndex}`}>
+				<SpaceBar
+					spacebar={spaceBarKey}
+					onClick={clickSpaceBar}/>
+				</div>
+		);
+
+		return spaceBar;
+
+	}
+
+
+	
+
 	return (
 		<>
 			{clickedKey && (
@@ -100,11 +128,21 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 					{clickedKey}
 				</div>
 			)}
+			<div>
+				<hr className='w-64 mx-auto h-px bg-gray-200 border-0'></hr>
+			</div>
+			<div className='flex justify-start pt-4 h-10 text-slate-200'>
+				{validInputs}
+			</div>
+
 			<div className='grid'>
 				<div className='m-auto flex h-fit w-fit flex-col justify-items-center'>
 					{rows.map((rowLetters: string[], index: number) =>
 						getRow(rowLetters, index)
 					)}
+				</div>
+				<div>
+					{getSpaceBar("space", 17)}
 				</div>
 			</div>
 			<div className='pt-8 flex justify-center'>

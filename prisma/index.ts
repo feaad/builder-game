@@ -6,6 +6,8 @@ import 'dotenv/config'
 async function main() {
     // prisma client queries go here
 
+    
+
 }
 
 export async function getCountries() {
@@ -17,7 +19,7 @@ export async function getCountries() {
     });
 }
 
-
+main()
 
 main().then(async () => {
     await prisma.$disconnect()

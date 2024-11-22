@@ -4,6 +4,7 @@ import { main } from "./generator";
 import { getCommonLetters } from "./generator";
 import { validCountries } from "./validCountries";
 
+
 export const meta = {
 	title: "Countries - The Builder Game",
 };
@@ -13,6 +14,8 @@ export default async function countries() {
 	const countries = await main();
 	const letters = await getCommonLetters();
 	const validCountriesList = await validCountries();
+
+	const spacebar = "space"
 
 
 
