@@ -13,14 +13,17 @@ export default async function countries() {
 	const validCountriesList = await validCountries();
 
 	return (
-		<div className='bg-bkg h-screen pt-24 px-5'>
+		<div className='bg-bkg min-h-screen pt-10'>
 			{/* <div className='flex justify-center'>
 				<h2 className='text-4xl font-bold '>The Builder Game</h2>
 			</div> */}
-			<div className='flex justify-center'>
-				<h5>To win the game, form countries using all the letters!</h5>
+			<div className="flex justify-center">
+				<div className='flex justify-center w-60 md:w-auto lg:w-auto text-center'>
+					<h5>To win the game, form countries using all the letters!</h5>
+				</div>
 			</div>
-			<div className="pt-14">
+
+			<div className='pt-8'>
 				<Keypad letters={letters} countries={validCountriesList} />
 			</div>
 		</div>

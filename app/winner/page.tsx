@@ -7,8 +7,8 @@ import { resetInputs } from "../countries/engine";
 const Winner = () => {
 	return (
 		<main>
-			<div className='bg-bkg h-screen pt-24 px-5'>
-				<div className='flex justify-center items-center pt-40 '>
+			<div className='bg-bkg min-h-screen w-full pt-24 px-5'>
+				<div className='flex justify-center items-center pt-20 lg:pt-40 '>
 					<svg
 						className='w-4 h-4 text-yellow-300 ms-1 animate-bounce'
 						xmlns='http://www.w3.org/2000/svg'
@@ -43,14 +43,24 @@ const Winner = () => {
 				<div className='flex justify-center pt-10'>
 					<div>
 						<Link href='/countries'>
-							<SecondaryButton label='New Game' onClick={resetInputs} />
+							{/* <SecondaryButton label='New Game' onClick={resetInputs} /> */}
+							<button
+								className='btn btn-outline w-48 text-white text-[16px] font-mono '
+								onClick={resetInputs}
+							>
+								New Game
+							</button>
 						</Link>
 					</div>
+				</div>
+				<div className='flex justify-center pt-10'>
 					<div>
 						<Link href='/'>
-							<SecondaryButton label='Homepage'/>
+							<button className='btn btn-outline w-48 text-white text-[16px] font-mono '>
+								Homepage
+							</button>
 						</Link>
-</div>
+					</div>
 				</div>
 			</div>
 		</main>

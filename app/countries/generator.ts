@@ -48,9 +48,9 @@ export async function getCommonLetters() {
 
 
 export async function main() {
-    const numContinents = await prisma.countries.count();
-    const listOfCountries = await getCountryList();
-    const countries = (await getRandomCountries()).flat();
-    const letters = await getCommonLetters();
+    await prisma.countries.count();
+    await getCountryList();
+    (await getRandomCountries()).flat();
+    await getCommonLetters();
 
 }

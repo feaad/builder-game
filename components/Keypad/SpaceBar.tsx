@@ -1,7 +1,5 @@
 "use client";
 
-import { space } from "postcss/lib/list";
-
 interface SpaceBarProps {
 	label: string;
 	onClick: () => void;
@@ -9,7 +7,7 @@ interface SpaceBarProps {
 
 const SpaceBar = ({ label, onClick }: SpaceBarProps) => {
 	return (
-		<div className='flex m-4'>
+		<div className='flex px-8 md:px-18 lg:px-96 pt-3'>
 			<button
 				onClick={onClick}
 				// className='btn-square btn-lg flex bg-white rounded-lg'
