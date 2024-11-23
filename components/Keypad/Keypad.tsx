@@ -82,7 +82,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 			getToast("Kindly enter a country name", "bg-slate-900", "text-slate-200");
 			clearWord();
 		} else {
-			getToast("Not on the list!", "bg-red-100", "text-red-500");
+			getToast("Not a country!", "bg-red-100", "text-red-500");
 			clearWord();
 		}
 	}
@@ -93,6 +93,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		setTextColour(Array(letters.length).fill("text-slate-950"));
 		resetInputs();
 		resInputs.length = 0;
+		clearWord();
 	}
 
 	function changeColour(userInput: string) {
@@ -149,12 +150,13 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		return spaceBar;
 	}
 
+
 	return (
 		<>
 			{clickedKey && (
 				<div>
-					<div className='flex justify-center pt-4 h-10 text-white'>
-						{clickedKey}
+					<div className='flex justify-center pt-4 h-10 text-white text-2xl pb-7'>
+						{clickedKey}{"|"}
 					</div>
 				</div>
 			)}
@@ -169,7 +171,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 			<div>
 				<hr className='w-64 mx-auto h-px bg-gray-200 border-0'></hr>
 			</div>
-			<div className='flex justify-start pt-4 h-10 text-slate-200'>
+			<div className='flex justify-start pt-4 h-10 text-slate-200 pb-10'>
 				{validInputs}
 			</div>
 

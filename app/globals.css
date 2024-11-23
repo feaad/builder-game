@@ -24,3 +24,19 @@ body {
   background-color: #5E503F;
   border-color:#ffffff
 }
+
+/* #tsparticles {
+  position: absolute;
+  width: 90%;
+  height: 20%;
+  z-index: 0;
+  text-align: center !important;
+} */
+
+/* #fireworks-container{
+  position: absolute;
+  width:  90px;
+  height: 90px;
+  z-index: 1;
+  background-color: red;
+} */

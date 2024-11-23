@@ -22,14 +22,6 @@ export default function Home() {
 						</Link>
 					</div>
 				</div>
-				{/* <div className='absolute bottom-20 inset-x-0 '> */}
-				{/* <div className='flex justify-center'> */}
-				{/* TODO: Link to game page */}
-				{/* <Link href={"/game"} className='font-semibold text-xl'>
-							Start Game
-						</Link> */}
-				{/* </div> */}
-				{/* </div> */}
 			</div>
 		</main>
 	);

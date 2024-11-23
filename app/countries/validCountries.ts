@@ -2,7 +2,7 @@ import { getCountries } from "@/prisma";
 import { getCommonLetters } from "./generator";
 
 // let validCountriesList: string[] = []
-let validCountriesList: Set<string> = new Set();
+const validCountriesList: Set<string> = new Set();
 let countriesList: string[] = [];
 
 const countries = await getCountries();
@@ -16,7 +16,7 @@ export async function getCountryList() {
     console.log("Full Countries List_1: ", countriesList);
     return countriesList;
 }
-let count = 0;
+
 export async function validCountries() {
 
     const countryList = await getCountryList();

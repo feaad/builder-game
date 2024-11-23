@@ -2,10 +2,7 @@
 import SecondaryButton from "@/components/SecondaryButton";
 import React from "react";
 import Link from "next/link";
-
-// interface WinnerProps {
-// 	onClick: () => void;
-// }
+import { resetInputs } from "../countries/engine";
 
 const Winner = () => {
 	return (
@@ -46,7 +43,7 @@ const Winner = () => {
 				<div className='flex justify-center pt-10'>
 					<div>
 						<Link href='/countries'>
-							<SecondaryButton label='New Game' />
+							<SecondaryButton label='New Game' onClick={resetInputs} />
 						</Link>
 					</div>
 					<div>
