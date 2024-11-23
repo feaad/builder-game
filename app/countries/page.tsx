@@ -11,14 +11,9 @@ export const meta = {
 
 export default async function countries() {
 
-	const countries = await main();
+	await main();
 	const letters = await getCommonLetters();
 	const validCountriesList = await validCountries();
-
-	const spacebar = "space"
-
-
-
 
 	return (
 		<div className='bg-bkg h-screen pt-24 px-5'>

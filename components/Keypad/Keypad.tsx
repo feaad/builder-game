@@ -1,6 +1,4 @@
 "use client";
-
-import React, { use } from "react";
 import Key from "./Key";
 import { useState } from "react";
 import SecondaryButton from "../SecondaryButton";
@@ -8,6 +6,7 @@ import SpaceBar from "./SpaceBar";
 import { checkIfExist, resetInputs } from "@/app/countries/engine";
 import Toast from "../Toast";
 import { checkWin } from "@/app/countries/engine";
+import { redirect} from 'next/navigation';
 
 interface KeypadProps {
 	letters: string[];
@@ -17,7 +16,6 @@ interface KeypadProps {
 const Keypad = ({ letters, countries }: KeypadProps) => {
 	const maxLetterOnRow = 4;
 	const rows: string[][] = [];
-	let res = 0;
 
 	const [validInputs, setValidInputs] = useState<string[]>([]);
 	const [toastMsg, setToast] = useState<string>("");
@@ -37,10 +35,6 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		rows.push(letters.slice(i, i + maxLetterOnRow));
 	}
 
-	function handleOnClick(key: string) {
-		console.log("key", key);
-	}
-
 	function displayLetter(key: string) {
 		setClickedKey((prevVal) => [...prevVal, key]);
 	}
@@ -57,7 +51,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		setClickedKey([]);
 	}
 
-	function getToast(message: string, colour: string, txtColour: string) { 
+	function getToast(message: string, colour: string, txtColour: string) {
 		setToast(message);
 		setToastColour(colour);
 		setToastTextColour(txtColour);
@@ -67,25 +61,21 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 	}
 
 	function submitWord() {
-		let word = clickedKey.join("");
+		const word = clickedKey.join("");
 		console.log("Word: ", word);
 		if (countries.has(word)) {
 			if (checkIfExist(word, validInputs)) {
 				getToast("Already exists", "bg-red-100", "text-red-500");
 				clearWord();
-			// Condition to let user know they've won, maybe confetti or
-			// fireworks. something fun.
 			} else {
-				getToast(
-					"Awesome! You got it right!",
-					"bg-toast",
-					"text-black"
-				);
+				getToast("Awesome! You got it right!", "bg-toast", "text-black");
 				setValidInputs((prevVal) => [...prevVal, word, " - "]);
-				res = resInputs.push(word);
+				resInputs.push(word);
 				console.log("Valid Inputs: ", resInputs);
 				changeColour(word);
-				checkWin(resInputs, letters)
+				if (checkWin(resInputs, letters)) {
+					redirect("/winner");
+				}
 				clearWord();
 			}
 		} else if (word === "") {
@@ -96,7 +86,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 			clearWord();
 		}
 	}
-	
+
 	function resetGame() {
 		setValidInputs([]);
 		setColour(Array(letters.length).fill("bg-white"));
@@ -169,7 +159,13 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 				</div>
 			)}
 
-			{toastMsg && <Toast message={toastMsg} colour={toastColour} textColour={toastTxtColour} />}
+			{toastMsg && (
+				<Toast
+					message={toastMsg}
+					colour={toastColour}
+					textColour={toastTxtColour}
+				/>
+			)}
 			<div>
 				<hr className='w-64 mx-auto h-px bg-gray-200 border-0'></hr>
 			</div>
@@ -188,10 +184,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 			<div className='pt-8 flex justify-center'>
 				<div className='grid grid-cols-3 gap-2'>
 					<SecondaryButton label='Delete' onClick={deleteLetter} />
-					<SecondaryButton
-						label='Reset'
-						onClick={resetGame}
-					/>
+					<SecondaryButton label='Reset' onClick={resetGame} />
 					<SecondaryButton label='Submit' onClick={submitWord} />
 				</div>
 			</div>

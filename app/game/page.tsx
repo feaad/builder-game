@@ -2,6 +2,7 @@
 import React from "react";
 import Grid from "./Grid";
 
+// const prisma = new PrismaClient();
 
 const Game = () => {
 
@@ -14,7 +15,7 @@ const Game = () => {
 				{/* TODO:Import user selection */}
 				<h5>Theme: {}</h5>
 			</div>
-			
+
 			{/* TODO:relevant approved words show up here */}
 			{/* <div className='flex justify-center pt-8 px-3'>
 				<input
@@ -31,3 +32,19 @@ const Game = () => {
 	);
 };
 export default Game;
+
+
+
+// export default async function Game() {
+// 	const testPrisma = await prisma.countries.findMany();
+	
+
+// 	return (
+// 		<div>
+// 			{testPrisma.map((country) => {
+// 				return <div key={country.id}>{country.name}</div>;
+// 			})}
+// 		</div>
+// 	);
+// }
+

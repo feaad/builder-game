@@ -6,14 +6,15 @@ let inputLetters = new Set();
 export function checkWin(validInputs: string[], letters: string[]) {
 	
 	for (let i = 0; i < validInputs.length; i++) {
-		for (let char of validInputs[i]) {
+		for (const char of validInputs[i]) {
 				inputLetters.add(char);
 		}
 	}
 	console.log("Input Letters: ", inputLetters);
 	console.log("Letters: ", letters);
     if (inputLetters.size === letters.length) {
-        console.log("You Win!");
+		console.log("You Win!");
+		return true;
     }
 }
 
