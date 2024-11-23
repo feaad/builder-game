@@ -2,8 +2,9 @@ export function checkIfExist(word: string, validInputs: string[]): boolean {
 	return validInputs.includes(word);
 }
 
+let inputLetters = new Set();
 export function checkWin(validInputs: string[], letters: string[]) {
-	const inputLetters = new Set();
+	
 	for (let i = 0; i < validInputs.length; i++) {
 		for (let char of validInputs[i]) {
 				inputLetters.add(char);
@@ -14,4 +15,10 @@ export function checkWin(validInputs: string[], letters: string[]) {
     if (inputLetters.size === letters.length) {
         console.log("You Win!");
     }
+}
+
+export function resetInputs() {
+    inputLetters = new Set();
+    console.log("Resetting Inputs");
+    console.log("Input Letters: ", inputLetters);
 }

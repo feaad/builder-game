@@ -5,7 +5,7 @@ import Key from "./Key";
 import { useState } from "react";
 import SecondaryButton from "../SecondaryButton";
 import SpaceBar from "./SpaceBar";
-import { checkIfExist } from "@/app/countries/engine";
+import { checkIfExist, resetInputs } from "@/app/countries/engine";
 import Toast from "../Toast";
 import { checkWin } from "@/app/countries/engine";
 
@@ -17,6 +17,21 @@ interface KeypadProps {
 const Keypad = ({ letters, countries }: KeypadProps) => {
 	const maxLetterOnRow = 4;
 	const rows: string[][] = [];
+	let res = 0;
+
+	const [validInputs, setValidInputs] = useState<string[]>([]);
+	const [toastMsg, setToast] = useState<string>("");
+	const [toastColour, setToastColour] = useState<string>("");
+	const [toastTxtColour, setToastTextColour] = useState<string>("");
+	const [resInputs] = useState<string[]>([]);
+	const [clickedKey, setClickedKey] = useState<string[]>([]);
+
+	const [colour, setColour] = useState<string[]>(
+		Array(letters.length).fill("bg-white")
+	);
+	const [textColour, setTextColour] = useState<string[]>(
+		Array(letters.length).fill("text-slate-950")
+	);
 
 	for (let i = 0; i < letters.length; i += maxLetterOnRow) {
 		rows.push(letters.slice(i, i + maxLetterOnRow));
@@ -25,8 +40,6 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 	function handleOnClick(key: string) {
 		console.log("key", key);
 	}
-
-	const [clickedKey, setClickedKey] = useState<string[]>([]);
 
 	function displayLetter(key: string) {
 		setClickedKey((prevVal) => [...prevVal, key]);
@@ -44,19 +57,6 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		setClickedKey([]);
 	}
 
-	const [colour, setColour] = useState<string[]>(
-		Array(letters.length).fill("bg-white")
-	);
-	const [textColour, setTextColour] = useState<string[]>(
-		Array(letters.length).fill("text-slate-950")
-	);
-
-	const [validInputs, setValidInputs] = useState<string[]>([]);
-	const [toastMsg, setToast] = useState<string>("");
-	const [toastColour, setToastColour] = useState<string>("");
-	const [toastTxtColour, setToastTextColour] = useState<string>("");
-	const [resInputs] = useState<string[]>([]);
-
 	function getToast(message: string, colour: string, txtColour: string) { 
 		setToast(message);
 		setToastColour(colour);
@@ -72,6 +72,9 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		if (countries.has(word)) {
 			if (checkIfExist(word, validInputs)) {
 				getToast("Already exists", "bg-red-100", "text-red-500");
+				clearWord();
+			// Condition to let user know they've won, maybe confetti or
+			// fireworks. something fun.
 			} else {
 				getToast(
 					"Awesome! You got it right!",
@@ -79,7 +82,7 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 					"text-black"
 				);
 				setValidInputs((prevVal) => [...prevVal, word, " - "]);
-				let res = resInputs.push(word);
+				res = resInputs.push(word);
 				console.log("Valid Inputs: ", resInputs);
 				changeColour(word);
 				checkWin(resInputs, letters)
@@ -93,7 +96,14 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 			clearWord();
 		}
 	}
-
+	
+	function resetGame() {
+		setValidInputs([]);
+		setColour(Array(letters.length).fill("bg-white"));
+		setTextColour(Array(letters.length).fill("text-slate-950"));
+		resetInputs();
+		resInputs.length = 0;
+	}
 
 	function changeColour(userInput: string) {
 		const newColours = [...colour];
@@ -149,10 +159,6 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 		return spaceBar;
 	}
 
-	
-
-
-
 	return (
 		<>
 			{clickedKey && (
@@ -183,8 +189,8 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 				<div className='grid grid-cols-3 gap-2'>
 					<SecondaryButton label='Delete' onClick={deleteLetter} />
 					<SecondaryButton
-						label='Shuffle'
-						onClick={() => console.log("Shuffle")}
+						label='Reset'
+						onClick={resetGame}
 					/>
 					<SecondaryButton label='Submit' onClick={submitWord} />
 				</div>

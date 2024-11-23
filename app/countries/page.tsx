@@ -29,16 +29,6 @@ export default async function countries() {
 				{/* TODO:Import user selection */}
 				<h5>Theme: {}</h5>
 			</div>
-
-			{/* TODO:relevant approved words show up here */}
-			<div className='flex justify-center pt-8 px-3'>
-				<input
-					type='text'
-					placeholder="You can't touch this"
-					className='w-full bg-bkg'
-					disabled
-				/>
-			</div>
 			<div>
 				<Keypad letters={letters} countries={validCountriesList}/>
 			</div>
