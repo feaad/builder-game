@@ -3,9 +3,8 @@ import Key from "./Key";
 import { useState } from "react";
 import SecondaryButton from "../SecondaryButton";
 import SpaceBar from "./SpaceBar";
-import { checkIfExist, resetInputs } from "@/app/countries/engine";
+import { checkIfExist, resetInputs, checkWin } from "@/app/countries/engine";
 import Toast from "../Toast";
-import { checkWin } from "@/app/countries/engine";
 import { redirect} from 'next/navigation';
 
 interface KeypadProps {
@@ -195,3 +194,4 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 };
 
 export default Keypad;
+

@@ -38,7 +38,7 @@ const Winner = () => {
 					</svg>
 				</div>
 				<div className='flex justify-center pt-10 '>
-					<h2 className='text-4xl font-bold'>You Win!</h2>
+					<h2 className='text-4xl font-bold text-white'>You Win!</h2>
 				</div>
 				<div className='flex justify-center pt-10'>
 					<div>
