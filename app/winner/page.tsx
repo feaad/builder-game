@@ -1,5 +1,4 @@
 "use client";
-import SecondaryButton from "@/components/SecondaryButton";
 import React from "react";
 import Link from "next/link";
 import { resetInputs } from "../countries/engine";
@@ -43,7 +42,6 @@ const Winner = () => {
 				<div className='flex justify-center pt-10'>
 					<div>
 						<Link href='/countries'>
-							{/* <SecondaryButton label='New Game' onClick={resetInputs} /> */}
 							<button
 								className='btn btn-outline w-48 text-white text-[16px] font-mono '
 								onClick={resetInputs}

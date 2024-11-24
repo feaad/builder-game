@@ -19,7 +19,6 @@ export async function getCountryList() {
         countriesList = countries.flatMap(c => c.countries);
 
     }
-    console.log("Full Countries List: ", countriesList);
 }
 
 export async function getRandomCountries() {
@@ -27,8 +26,6 @@ export async function getRandomCountries() {
     if (countries && Array.isArray(countries)) {
         randomCountries = countries.flatMap(c => c.countries).sort(() => 0.5 - Math.random()).slice(0, sampleSize);
     }
-
-    console.log("Random Countries: ", randomCountries);
 
     return randomCountries;
 }

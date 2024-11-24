@@ -14,10 +14,7 @@ export default async function countries() {
 
 	return (
 		<div className='bg-bkg min-h-screen pt-10'>
-			{/* <div className='flex justify-center'>
-				<h2 className='text-4xl font-bold '>The Builder Game</h2>
-			</div> */}
-			<div className="flex justify-center">
+			<div className='flex justify-center'>
 				<div className='flex justify-center w-60 md:w-auto lg:w-auto text-center text-white'>
 					<h5>To win the game, form countries using all the letters!</h5>
 				</div>

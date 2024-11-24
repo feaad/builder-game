@@ -1,7 +1,6 @@
 import { getCountries } from "@/prisma";
 import { getCommonLetters } from "./generator";
 
-// let validCountriesList: string[] = []
 const validCountriesList: Set<string> = new Set();
 let countriesList: string[] = [];
 
@@ -34,7 +33,6 @@ export async function validCountries() {
 
     console.log("Result", validCountriesList);
     console.log("Length", validCountriesList.size);
-    // console.log("checking country list", countriesList);
     return validCountriesList;
 }
 

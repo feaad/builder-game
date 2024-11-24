@@ -135,7 +135,6 @@ const Keypad = ({ letters, countries }: KeypadProps) => {
 	function clickSpaceBar() {
 		if (clickedKey.length > 0) {
 			setClickedKey((prevVal) => [...prevVal, " "]);
-			console.log("Space Bar Clicked");
 		}
 	}
 
